@@ -118,6 +118,35 @@
         flex: 1;
     }
 
+    /* 損益平衡價格 */
+    .break-even-card {
+        background: #eef7ff;
+        border: 1px solid #cfe7ff;
+        border-radius: 16px;
+        padding: 18px;
+        margin-bottom: 14px;
+        text-align: center;
+    }
+
+    .break-even-title {
+        font-size: 15px;
+        color: #555;
+        margin-bottom: 8px;
+    }
+
+    .break-even-price {
+        font-size: 32px;
+        font-weight: 700;
+        color: #007aff;
+    }
+
+    .break-even-subtitle {
+        margin-top: 7px;
+        font-size: 12px;
+        color: #777;
+        line-height: 1.5;
+    }
+
     .switch-row {
         display: flex;
         justify-content: space-between;
@@ -273,6 +302,7 @@
     }
 
     @media (prefers-color-scheme: dark) {
+
         body {
             background: #111;
             color: #f5f5f7;
@@ -292,21 +322,30 @@
             background: #2c2c2e;
         }
 
-        .section-title {
-            color: white;
-        }
-
         label {
             color: #aaa;
+        }
+
+        .fee-settings {
+            border-color: #38383a;
+        }
+
+        .break-even-card {
+            background: #10253a;
+            border-color: #23486a;
+        }
+
+        .break-even-title {
+            color: #aaa;
+        }
+
+        .break-even-subtitle {
+            color: #999;
         }
 
         .reset {
             background: #333;
             color: white;
-        }
-
-        .fee-settings {
-            border-color: #38383a;
         }
     }
 </style>
@@ -321,13 +360,15 @@
         <p>快速計算買賣股票的實際損益</p>
     </div>
 
-    <!-- 輸入區 -->
+
+    <!-- 交易資料 -->
     <div class="card">
 
         <div class="section-title">交易資料</div>
 
         <div class="input-group">
             <label>買進價格</label>
+
             <div class="unit">
                 <input id="buyPrice"
                        type="number"
@@ -339,8 +380,10 @@
             </div>
         </div>
 
+
         <div class="input-group">
             <label>賣出價格</label>
+
             <div class="unit">
                 <input id="sellPrice"
                        type="number"
@@ -352,8 +395,10 @@
             </div>
         </div>
 
+
         <div class="input-group">
             <label>股數</label>
+
             <div class="unit">
                 <input id="shares"
                        type="number"
@@ -367,26 +412,56 @@
 
     </div>
 
-    <!-- 費用設定 -->
+
+    <!-- 損益平衡價格 -->
+    <div class="break-even-card">
+
+        <div class="break-even-title">
+            損益平衡賣出價
+        </div>
+
+        <div id="breakEvenPrice" class="break-even-price">
+            NT$ 0.00
+        </div>
+
+        <div class="break-even-subtitle">
+            包含買進手續費、賣出手續費及證券交易稅<br>
+            賣出價格達到此價格，預估損益約為 0
+        </div>
+
+    </div>
+
+
+    <!-- 交易成本 -->
     <div class="card">
 
         <div class="section-title">交易成本</div>
 
         <div class="switch-row">
-            <div class="switch-label">計算手續費與交易稅</div>
+
+            <div class="switch-label">
+                計算手續費與交易稅
+            </div>
 
             <label class="switch">
-                <input type="checkbox" id="includeFees" checked>
+                <input type="checkbox"
+                       id="includeFees"
+                       checked>
+
                 <span class="slider"></span>
             </label>
+
         </div>
+
 
         <div class="fee-settings" id="feeSettings">
 
             <div class="row">
 
                 <div class="input-group">
+
                     <label>買進手續費</label>
+
                     <div class="unit">
                         <input id="buyFee"
                                type="number"
@@ -394,12 +469,17 @@
                                step="0.001"
                                value="0.1425"
                                min="0">
+
                         <span>%</span>
                     </div>
+
                 </div>
 
+
                 <div class="input-group">
+
                     <label>賣出手續費</label>
+
                     <div class="unit">
                         <input id="sellFee"
                                type="number"
@@ -407,27 +487,37 @@
                                step="0.001"
                                value="0.1425"
                                min="0">
+
                         <span>%</span>
                     </div>
+
                 </div>
 
             </div>
 
+
             <div class="input-group">
+
                 <label>證券交易稅</label>
+
                 <div class="unit">
+
                     <input id="tax"
                            type="number"
                            inputmode="decimal"
                            step="0.001"
                            value="0.3"
                            min="0">
+
                     <span>%</span>
+
                 </div>
+
             </div>
 
+
             <div class="fee-note">
-                一般上市櫃股票現行常見設定：買賣手續費 0.1425%，
+                一般上市櫃股票常見設定：買賣手續費 0.1425%，
                 股票賣出交易稅 0.3%。實際費率可能因券商折扣而不同。
             </div>
 
@@ -435,52 +525,64 @@
 
     </div>
 
-    <!-- 結果 -->
+
+    <!-- 損益結果 -->
     <div class="result-card">
 
         <div class="result-main">
 
-            <div class="result-label">最終損益</div>
+            <div class="result-label">
+                最終損益
+            </div>
 
-            <div id="profit" class="profit profit-zero">
+            <div id="profit"
+                 class="profit profit-zero">
                 NT$ 0
             </div>
 
-            <div id="returnRate" class="return-rate profit-zero">
+            <div id="returnRate"
+                 class="return-rate profit-zero">
                 報酬率 0.00%
             </div>
 
         </div>
+
 
         <div class="result-row">
             <span class="label">買進股票金額</span>
             <span class="value" id="buyAmount">NT$ 0</span>
         </div>
 
+
         <div class="result-row">
             <span class="label">買進手續費</span>
             <span class="value" id="buyFeeAmount">NT$ 0</span>
         </div>
+
 
         <div class="result-row">
             <span class="label">總投入成本</span>
             <span class="value" id="totalCost">NT$ 0</span>
         </div>
 
+
         <div class="result-row">
             <span class="label">賣出股票金額</span>
             <span class="value" id="sellAmount">NT$ 0</span>
         </div>
+
 
         <div class="result-row">
             <span class="label">賣出手續費</span>
             <span class="value" id="sellFeeAmount">NT$ 0</span>
         </div>
 
+
         <div class="result-row">
             <span class="label">證券交易稅</span>
             <span class="value" id="taxAmount">NT$ 0</span>
         </div>
+
 
         <div class="result-row">
             <span class="label">實際賣出所得</span>
@@ -489,9 +591,12 @@
 
     </div>
 
-    <button class="button reset" onclick="resetCalculator()">
+
+    <button class="button reset"
+            onclick="resetCalculator()">
         清除重新計算
     </button>
+
 
     <div class="footer">
         本計算器為估算工具。實際交易成本可能因券商手續費折扣、
@@ -500,7 +605,12 @@
 
 </div>
 
+
 <script>
+
+/* ==========================================
+   監聽輸入
+   ========================================== */
 
 const inputs = [
     "buyPrice",
@@ -513,102 +623,288 @@ const inputs = [
 ];
 
 inputs.forEach(id => {
-    document.getElementById(id).addEventListener("input", calculate);
-    document.getElementById(id).addEventListener("change", calculate);
+
+    const element = document.getElementById(id);
+
+    element.addEventListener("input", calculate);
+    element.addEventListener("change", calculate);
+
 });
 
+
+/* ==========================================
+   取得數字
+   ========================================== */
+
 function getNumber(id) {
-    return parseFloat(document.getElementById(id).value) || 0;
+
+    return parseFloat(
+        document.getElementById(id).value
+    ) || 0;
+
 }
+
+
+/* ==========================================
+   金額格式
+   ========================================== */
 
 function money(value) {
-    return "NT$ " + Math.round(value).toLocaleString("zh-TW");
+
+    return "NT$ " +
+        Math.round(value).toLocaleString("zh-TW");
+
 }
 
-function percent(value) {
-    return value.toFixed(2) + "%";
+
+/* ==========================================
+   價格格式
+   ========================================== */
+
+function price(value) {
+
+    return "NT$ " +
+        value.toFixed(2);
+
 }
+
+
+/* ==========================================
+   百分比格式
+   ========================================== */
+
+function percent(value) {
+
+    return value.toFixed(2) + "%";
+
+}
+
+
+/* ==========================================
+   主計算
+   ========================================== */
 
 function calculate() {
 
-    const buyPrice = getNumber("buyPrice");
-    const sellPrice = getNumber("sellPrice");
-    const shares = getNumber("shares");
+    const buyPrice =
+        getNumber("buyPrice");
+
+    const sellPrice =
+        getNumber("sellPrice");
+
+    const shares =
+        getNumber("shares");
+
 
     const includeFees =
         document.getElementById("includeFees").checked;
+
 
     let buyFeeRate = 0;
     let sellFeeRate = 0;
     let taxRate = 0;
 
+
     if (includeFees) {
-        buyFeeRate = getNumber("buyFee") / 100;
-        sellFeeRate = getNumber("sellFee") / 100;
-        taxRate = getNumber("tax") / 100;
+
+        buyFeeRate =
+            getNumber("buyFee") / 100;
+
+        sellFeeRate =
+            getNumber("sellFee") / 100;
+
+        taxRate =
+            getNumber("tax") / 100;
+
     }
 
-    const buyAmount = buyPrice * shares;
-    const sellAmount = sellPrice * shares;
 
-    const buyFeeAmount = buyAmount * buyFeeRate;
-    const sellFeeAmount = sellAmount * sellFeeRate;
-    const taxAmount = sellAmount * taxRate;
+    /* ------------------------------
+       買進
+       ------------------------------ */
+
+    const buyAmount =
+        buyPrice * shares;
+
+
+    const buyFeeAmount =
+        buyAmount * buyFeeRate;
+
 
     const totalCost =
         buyAmount + buyFeeAmount;
 
+
+    /* ------------------------------
+       賣出
+       ------------------------------ */
+
+    const sellAmount =
+        sellPrice * shares;
+
+
+    const sellFeeAmount =
+        sellAmount * sellFeeRate;
+
+
+    const taxAmount =
+        sellAmount * taxRate;
+
+
     const netSellAmount =
-        sellAmount - sellFeeAmount - taxAmount;
+        sellAmount -
+        sellFeeAmount -
+        taxAmount;
+
+
+    /* ------------------------------
+       損益
+       ------------------------------ */
 
     const profit =
-        netSellAmount - totalCost;
+        netSellAmount -
+        totalCost;
+
 
     let returnRate = 0;
 
+
     if (totalCost > 0) {
-        returnRate = (profit / totalCost) * 100;
+
+        returnRate =
+            (profit / totalCost) * 100;
+
     }
 
-    document.getElementById("buyAmount").textContent =
+
+    /* ------------------------------
+       損益平衡價格
+       
+       P × 股數 ×
+       (1 - 賣出手續費 - 證交稅)
+       =
+       買進金額 + 買進手續費
+       
+       所以：
+
+       P =
+       總投入成本 /
+       [股數 ×
+       (1 - 賣出手續費 - 證交稅)]
+       ------------------------------ */
+
+    let breakEvenPrice = 0;
+
+
+    if (shares > 0) {
+
+        const sellNetRate =
+            1 -
+            sellFeeRate -
+            taxRate;
+
+
+        if (sellNetRate > 0) {
+
+            breakEvenPrice =
+                totalCost /
+                (shares * sellNetRate);
+
+        }
+
+    }
+
+
+    /* ------------------------------
+       更新損益平衡價格
+       ------------------------------ */
+
+    document.getElementById(
+        "breakEvenPrice"
+    ).textContent =
+        price(breakEvenPrice);
+
+
+    /* ------------------------------
+       更新結果
+       ------------------------------ */
+
+    document.getElementById(
+        "buyAmount"
+    ).textContent =
         money(buyAmount);
 
-    document.getElementById("buyFeeAmount").textContent =
+
+    document.getElementById(
+        "buyFeeAmount"
+    ).textContent =
         money(buyFeeAmount);
 
-    document.getElementById("totalCost").textContent =
+
+    document.getElementById(
+        "totalCost"
+    ).textContent =
         money(totalCost);
 
-    document.getElementById("sellAmount").textContent =
+
+    document.getElementById(
+        "sellAmount"
+    ).textContent =
         money(sellAmount);
 
-    document.getElementById("sellFeeAmount").textContent =
+
+    document.getElementById(
+        "sellFeeAmount"
+    ).textContent =
         money(sellFeeAmount);
 
-    document.getElementById("taxAmount").textContent =
+
+    document.getElementById(
+        "taxAmount"
+    ).textContent =
         money(taxAmount);
 
-    document.getElementById("netSellAmount").textContent =
+
+    document.getElementById(
+        "netSellAmount"
+    ).textContent =
         money(netSellAmount);
 
-    document.getElementById("profit").textContent =
+
+    document.getElementById(
+        "profit"
+    ).textContent =
         money(profit);
 
-    document.getElementById("returnRate").textContent =
+
+    document.getElementById(
+        "returnRate"
+    ).textContent =
         "報酬率 " + percent(returnRate);
+
 
     updateProfitColor(
         document.getElementById("profit"),
         profit
     );
 
+
     updateProfitColor(
         document.getElementById("returnRate"),
         profit
     );
+
 }
 
-function updateProfitColor(element, profit) {
+
+/* ==========================================
+   損益顏色
+   ========================================== */
+
+function updateProfitColor(
+    element,
+    profit
+) {
 
     element.classList.remove(
         "profit-positive",
@@ -616,31 +912,79 @@ function updateProfitColor(element, profit) {
         "profit-zero"
     );
 
+
     if (profit > 0) {
-        element.classList.add("profit-positive");
+
+        element.classList.add(
+            "profit-positive"
+        );
+
     }
     else if (profit < 0) {
-        element.classList.add("profit-negative");
+
+        element.classList.add(
+            "profit-negative"
+        );
+
     }
     else {
-        element.classList.add("profit-zero");
+
+        element.classList.add(
+            "profit-zero"
+        );
+
     }
+
 }
+
+
+/* ==========================================
+   重設
+   ========================================== */
 
 function resetCalculator() {
 
-    document.getElementById("buyPrice").value = "";
-    document.getElementById("sellPrice").value = "";
-    document.getElementById("shares").value = "";
+    document.getElementById(
+        "buyPrice"
+    ).value = "";
 
-    document.getElementById("buyFee").value = "0.1425";
-    document.getElementById("sellFee").value = "0.1425";
-    document.getElementById("tax").value = "0.3";
 
-    document.getElementById("includeFees").checked = true;
+    document.getElementById(
+        "sellPrice"
+    ).value = "";
+
+
+    document.getElementById(
+        "shares"
+    ).value = "";
+
+
+    document.getElementById(
+        "buyFee"
+    ).value = "0.1425";
+
+
+    document.getElementById(
+        "sellFee"
+    ).value = "0.1425";
+
+
+    document.getElementById(
+        "tax"
+    ).value = "0.3";
+
+
+    document.getElementById(
+        "includeFees"
+    ).checked = true;
+
 
     calculate();
+
 }
+
+
+/* 初始計算 */
 
 calculate();
 
